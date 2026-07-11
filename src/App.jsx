@@ -35,26 +35,26 @@ export default function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playlist.trackIndex])
 
-  const togglePlay = useCallback(async () => {
-    await ensureContext()
+  const togglePlay = useCallback(() => {
+    ensureContext()
     hasInteractedRef.current = true
     audio.isPlaying ? audio.pause() : audio.play()
   }, [audio, ensureContext])
 
-  const handleSelect = useCallback(async (index) => {
-    await ensureContext()
+  const handleSelect = useCallback((index) => {
+    ensureContext()
     hasInteractedRef.current = true
     playlist.select(index)
   }, [playlist, ensureContext])
 
-  const handleNext = useCallback(async () => {
-    await ensureContext()
+  const handleNext = useCallback(() => {
+    ensureContext()
     hasInteractedRef.current = true
     playlist.next()
   }, [playlist, ensureContext])
 
-  const handlePrev = useCallback(async () => {
-    await ensureContext()
+  const handlePrev = useCallback(() => {
+    ensureContext()
     hasInteractedRef.current = true
     playlist.prev()
   }, [playlist, ensureContext])
@@ -78,7 +78,7 @@ export default function App() {
   const { currentTrack, trackIndex, tracks } = playlist
 
   return (
-    <div className="min-h-screen bg-surface-0 text-text-primary flex flex-col">
+    <div className="h-screen overflow-hidden bg-surface-0 text-text-primary flex flex-col">
       <header className="flex items-center justify-between px-5 sm:px-8 py-4 border-b border-border flex-shrink-0">
         <div className="flex items-center gap-2.5">
           <div
@@ -98,7 +98,7 @@ export default function App() {
       </header>
 
       <main className="flex-1 flex flex-col lg:flex-row overflow-hidden">
-        <section className="flex-1 flex flex-col p-4 sm:p-6 lg:p-8 gap-5 min-h-[55vh] lg:min-h-0">
+        <section className="flex-1 flex flex-col p-4 sm:p-6 lg:p-8 gap-5 overflow-y-auto">
           <div className="flex-1 rounded-2xl border border-border bg-surface-1 overflow-hidden relative min-h-[140px]">
             <Visualizer
               getFrequencyData={getFrequencyData}

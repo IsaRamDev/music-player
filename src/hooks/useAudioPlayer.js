@@ -16,6 +16,9 @@ export function useAudioPlayer({ src, volume, muted, loop, onEnded }) {
   const onEndedRef = useRef(onEnded)
   useEffect(() => { onEndedRef.current = onEnded }, [onEnded])
 
+  const loopRef = useRef(!!loop)
+  useEffect(() => { loopRef.current = !!loop }, [loop])
+
   useEffect(() => {
     const audio = audioRef.current
     setIsLoading(true)
@@ -26,14 +29,17 @@ export function useAudioPlayer({ src, volume, muted, loop, onEnded }) {
   }, [src])
 
   useEffect(() => {
-    audioRef.current.loop = !!loop
-  }, [loop])
-
-  useEffect(() => {
     const audio = audioRef.current
     const handleTimeUpdate     = () => setCurrentTime(audio.currentTime)
     const handleLoadedMetadata = () => { setDuration(audio.duration || 0); setIsLoading(false) }
-    const handleEnded          = () => onEndedRef.current?.()
+    const handleEnded          = () => {
+      if (loopRef.current) {
+        audio.currentTime = 0
+        audio.play().catch((err) => console.error('[useAudioPlayer] loop restart failed:', err))
+      } else {
+        onEndedRef.current?.()
+      }
+    }
     const handleWaiting        = () => setIsLoading(true)
     const handleCanPlay        = () => setIsLoading(false)
     const handlePlay           = () => setIsPlaying(true)
@@ -63,7 +69,7 @@ export function useAudioPlayer({ src, volume, muted, loop, onEnded }) {
   }, [volume, muted])
 
   const play = useCallback(async () => {
-    try { await audioRef.current.play() } catch { /* autoplay blocked */ }
+    try { await audioRef.current.play() } catch (err) { console.error('[useAudioPlayer] play() blocked:', err) }
   }, [])
 
   const pause = useCallback(() => {
