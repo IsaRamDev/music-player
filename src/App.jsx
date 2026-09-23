@@ -78,7 +78,7 @@ export default function App() {
   const { currentTrack, trackIndex, tracks } = playlist
 
   return (
-    <div className="h-screen overflow-hidden bg-surface-0 text-text-primary flex flex-col">
+    <div className="h-dvh lg:h-screen overflow-y-auto lg:overflow-hidden bg-surface-0 text-text-primary flex flex-col">
       <header className="flex items-center justify-between px-5 sm:px-8 py-4 border-b border-border flex-shrink-0">
         <div className="flex items-center gap-2.5">
           <div
@@ -97,9 +97,9 @@ export default function App() {
         </span>
       </header>
 
-      <main className="flex-1 flex flex-col lg:flex-row overflow-hidden">
-        <section className="flex-1 flex flex-col p-4 sm:p-6 lg:p-8 gap-5 overflow-y-auto">
-          <div className="flex-1 rounded-2xl border border-border bg-surface-1 overflow-hidden relative min-h-[140px]">
+      <main className="flex-1 flex flex-col lg:flex-row lg:overflow-hidden">
+        <section className="flex flex-col lg:flex-1 p-4 sm:p-6 lg:p-8 gap-5 lg:overflow-y-auto">
+          <div className="h-20 sm:h-40 lg:h-auto lg:flex-1 rounded-2xl border border-border bg-surface-1 overflow-hidden relative lg:min-h-[140px]">
             <Visualizer
               getFrequencyData={getFrequencyData}
               isPlaying={audio.isPlaying}
@@ -148,7 +148,7 @@ export default function App() {
           </div>
         </section>
 
-        <aside className="w-full lg:w-80 flex-shrink-0 border-t lg:border-t-0 lg:border-l border-border bg-surface-1/40 p-4 sm:p-5 overflow-y-auto">
+        <aside className="w-full lg:w-80 flex-shrink-0 border-t lg:border-t-0 lg:border-l border-border bg-surface-1/40 p-4 sm:p-5 lg:overflow-y-auto">
           <p className="text-xs font-semibold text-text-muted uppercase tracking-widest mb-3 px-1">
             Playlist · {tracks.length} tracks
           </p>
